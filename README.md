@@ -23,7 +23,7 @@ pip install -r dev_requirements.txt
 ### Running linters
 
 ```
-isort scripts/
+isort pymusas_web_api/
 flake8
 mypy
 ```
