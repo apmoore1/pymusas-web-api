@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+spacy>=3.2.0,<3.3.0
+https://github.com/explosion/spacy-models/releases/download/nl_core_news_sm-3.2.0/nl_core_news_sm-3.2.0.tar.gz#egg=nl_core_news_sm
+https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.2.0/fr_core_news_sm-3.2.0.tar.gz#egg=fr_core_news_sm
+https://github.com/explosion/spacy-models/releases/download/it_core_news_sm-3.2.0/it_core_news_sm-3.2.0.tar.gz#egg=it_core_news_sm
+https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.2.0/pt_core_news_sm-3.2.0.tar.gz#egg=pt_core_news_sm
+https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.2.0/es_core_news_sm-3.2.0.tar.gz#egg=es_core_news_sm
+https://github.com/explosion/spacy-models/releases/download/zh_core_web_sm-3.2.0/zh_core_web_sm-3.2.0.tar.gz#egg=zh_core_web_sm
+pymusas==0.2.0
