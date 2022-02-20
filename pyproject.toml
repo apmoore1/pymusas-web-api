@@ -36,6 +36,7 @@ module = [
 ignore_missing_imports = true
 
 [tool.isort]
+known_first_party = "pymusas_web_api"
 known_third_party = [
     "spacy",
     "pymusas",
