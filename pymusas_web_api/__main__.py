@@ -15,9 +15,8 @@ def main() -> None:
     parser.add_argument('--reload', action='store_true',
                         help="Enable auto-reload (Default False)")
     args = parser.parse_args()
-    print(args)
 
-    uvicorn.run("server:app", host=args.host, port=args.port,
+    uvicorn.run("pymusas_web_api.server:app", host=args.host, port=args.port,
                 log_level=args.log_level, reload=args.reload)
 
 

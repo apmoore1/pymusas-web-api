@@ -71,7 +71,7 @@ def load_spacy_models() -> None:
 load_spacy_models()
 
 
-class SupportedLanguages(Enum):
+class SupportedLanguages(str, Enum):
     dutch = "dutch"
     french = "french"
     italian = "italian"
