@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Dict, List, Optional
 
 from fastapi import FastAPI
@@ -6,13 +7,6 @@ from pymusas.lexicon_collection import LexiconCollection
 from pymusas.pos_mapper import UPOS_TO_USAS_CORE
 from pymusas.spacy_api.taggers import rule_based  # noqa: F401
 import spacy
-
-
-class SpacyToken(BaseModel):
-    text: str
-    lemma: Optional[str]
-    pos: str
-    usas_tags: List[str]
 
 
 lang_model_name = {
@@ -77,6 +71,22 @@ def load_spacy_models() -> None:
 load_spacy_models()
 
 
+class SupportedLanguages(Enum):
+    dutch = "dutch"
+    french = "french"
+    italian = "italian"
+    portuguese = "portuguese"
+    spanish = "spanish"
+    chinese = "chinese"
+
+
+class SpacyToken(BaseModel):
+    text: str
+    lemma: Optional[str]
+    pos: str
+    usas_tags: List[str]
+
+
 def spacy_processing(model_name: str, text: str) -> List[SpacyToken]:
     nlp = spacy_lang_model[model_name]
     tokens: List[SpacyToken] = []
@@ -93,6 +103,11 @@ app = FastAPI()
 
 
 @app.get("/")
-def process(lang: str, text: str) -> List[SpacyToken]:
-    model_name = lang_model_name[lang]
+def tag(lang: SupportedLanguages, text: str) -> List[SpacyToken]:
+    model_name = lang_model_name[lang.value]
     return spacy_processing(model_name, text)
+
+
+@app.get("/supported-languages")
+def supported_languages() -> List[str]:
+    return [language.value for language in SupportedLanguages]
