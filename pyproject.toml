@@ -51,3 +51,25 @@ force_grid_wrap = 0
 include_trailing_comma = true
 lines_after_imports = 2
 line_length = 100
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests"
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "pymusas_web_api"
+]
+command_line = "-m pytest"
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.coverage.json]
+output = "coverage.json"
+
+[tool.coverage.xml]
+output = "coverage.xml"

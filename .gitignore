@@ -2,3 +2,6 @@ __pycache__
 .mypy_cache
 .vscode
 pymusas_web_api.egg-info
+.coverage
+coverage.json
+coverage.xml

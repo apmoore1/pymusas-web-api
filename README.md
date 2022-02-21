@@ -63,8 +63,16 @@ flake8
 mypy
 ```
 
-To run the tests:
+To run the tests with code coverage, the pytest and coverage settings can be found within [./pyproject.toml](./pyproject.toml):
 
 ``` bash
-pytest 
+coverage run # Runs the tests (uses pytest)
+coverage report # Produces a command line report on the test coverage
+```
+
+If you would like a JSON or XML code coverage report run the respective commands to produce a `coverage.json` or `coverage.xml` file respectively:
+
+``` bash
+coverage json
+coverage xml
 ```
