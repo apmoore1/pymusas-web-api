@@ -53,10 +53,18 @@ For a zsh shell, which is the default shell for the new Macs you will need to es
 pip install -e .\[tests\]
 ```
 
-### Running linters
+### Running linters and tests
 
-```
-isort pymusas_web_api/
+This code base uses isort, flake8, and mypy to ensure that the format of the code is consistent and contain type hints. The flake8 settings can be found in [./setup.cfg](./setup.cfg) and the isort and mypy settings within [./pyproject.toml](./pyproject.toml). To run these linters:
+
+``` bash
+isort pymusas_web_api/ tests/
 flake8
 mypy
+```
+
+To run the tests:
+
+``` bash
+pytest 
 ```

@@ -6,7 +6,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.mypy]
-files = ["pymusas_web_api/"]
+files = ["pymusas_web_api/", "tests/"]
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
