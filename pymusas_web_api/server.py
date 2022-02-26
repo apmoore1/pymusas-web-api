@@ -103,11 +103,11 @@ app = FastAPI()
 
 
 @app.get("/")
-def tag(lang: SupportedLanguages, text: str) -> List[SpacyToken]:
+async def tag(lang: SupportedLanguages, text: str) -> List[SpacyToken]:
     model_name = lang_model_name[lang.value]
     return spacy_processing(model_name, text)
 
 
 @app.get("/supported-languages")
-def supported_languages() -> List[str]:
+async def supported_languages() -> List[str]:
     return [language.value for language in SupportedLanguages]
