@@ -1,8 +1,8 @@
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Set
 
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Query
+from pydantic import BaseModel, Field
 from pymusas.lexicon_collection import LexiconCollection
 from pymusas.pos_mapper import UPOS_TO_USAS_CORE
 from pymusas.spacy_api.taggers import rule_based  # noqa: F401
@@ -81,10 +81,15 @@ class SupportedLanguages(str, Enum):
 
 
 class SpacyToken(BaseModel):
-    text: str
-    lemma: Optional[str]
-    pos: str
-    usas_tags: List[str]
+    text: str = Field(..., description="Token text", example="Cars")
+    lemma: Optional[str] = Field(None, description="Lemma of token", example="car")
+    pos: str = Field(..., description="Part Of Speech (POS) tag of token", example="noun")
+    usas_tags: List[str] = Field(...,
+                                 description=("List of USAS tags of the token in "
+                                              "rank order, the most likely tag is "
+                                              "the first tag in the list, in the "
+                                              "example the most likely tag is `Z1`."),
+                                 example=["Z1", "Z2"])
 
 
 def spacy_processing(model_name: str, text: str) -> List[SpacyToken]:
@@ -102,12 +107,15 @@ def spacy_processing(model_name: str, text: str) -> List[SpacyToken]:
 app = FastAPI()
 
 
-@app.get("/")
-async def tag(lang: SupportedLanguages, text: str) -> List[SpacyToken]:
+@app.get("/", response_model=List[SpacyToken])
+async def tag(lang: SupportedLanguages = Query(...,
+                                               description='Supported languages.'),
+              text: str = Query(..., description='Text to be tagged.')
+              ) -> List[SpacyToken]:
     model_name = lang_model_name[lang.value]
     return spacy_processing(model_name, text)
 
 
-@app.get("/supported-languages")
-async def supported_languages() -> List[str]:
-    return [language.value for language in SupportedLanguages]
+@app.get("/supported-languages", response_model=Set[SupportedLanguages])
+async def supported_languages() -> Set[SupportedLanguages]:
+    return {language for language in SupportedLanguages}
