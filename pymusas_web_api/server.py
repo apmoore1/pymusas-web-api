@@ -107,15 +107,31 @@ def spacy_processing(model_name: str, text: str) -> List[SpacyToken]:
 app = FastAPI()
 
 
-@app.get("/", response_model=List[SpacyToken])
+@app.get("/", response_model=List[SpacyToken], tags=['Tagging'],
+         summary="Tags the text.",
+         response_description='An array of `SpacyToken`s.')
 async def tag(lang: SupportedLanguages = Query(...,
-                                               description='Supported languages.'),
+                                               description='Language of the text.'),
               text: str = Query(..., description='Text to be tagged.')
               ) -> List[SpacyToken]:
+    '''
+    Tokenises, lemmatises (for all languages but Chinese), Part Of Speech tags,
+    and semantic tags (with USAS tags) the text returning this information as a
+    an array of `SpacyToken`s. The `lang` should be the language of the text
+    and this determines the model that is used.
+
+    All but the semantic tags are the output of the small version of the
+    pre-trained spaCy model for the given language, the semantic tags are the
+    output of the given language PyMUSAS model. For example for French it uses
+    the [small French spaCy model](https://spacy.io/models/fr#fr_core_news_sm)
+    and the [French PyMUSAS model](https://ucrel.github.io/pymusas/usage/how_to/tag_text#french).
+    '''
     model_name = lang_model_name[lang.value]
     return spacy_processing(model_name, text)
 
 
-@app.get("/supported-languages", response_model=Set[SupportedLanguages])
+@app.get("/supported-languages", response_model=Set[SupportedLanguages], tags=['Tagging'],
+         summary="Outputs all languages the tagger supports.",
+         response_description="An array of languages the tagger supports.")
 async def supported_languages() -> Set[SupportedLanguages]:
     return {language for language in SupportedLanguages}
